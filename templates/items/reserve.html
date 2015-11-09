@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n admin_modify staticfiles %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static "jquery/jquery-ui.min.css" %}">
+    {# <link rel="stylesheet" href="{% static "css/jquery-ui.min.css" %}"> #}
+    {# <link rel="stylesheet" href="{% static "css/jquery-ui.structure.min.css" %}"> #}
+    {# <link rel="stylesheet" href="{% static "css/jquery-ui-1.10.0.custom.css" %}"> #}
+    <link rel="stylesheet" href="{% static "css/bootstrap-datetimepicker.css" %}">
+{% endblock %}
+
+{% block extrafooter %}
+    {# <script src="{% static "js/vendor/jquery-ui.min.js" %}"></script> #}
+    <script src="{% static "js/vendor/moment.min.js" %}"></script>
+    <script src="{% static "js/vendor/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/vendor/bootstrap-datetimepicker.js" %}"></script>
+    {{ block.super }}
+{% endblock %}
+
+{% block main %}
+    <p>
+        {% trans "Name" %}: {{ item.name }}
+    </p>
+    <form action="{% url 'reserve_item' item.pk %}" method="post">
+        {% csrf_token %}
+      
+        <p>
+            <label>{% trans "Reserve to" %}</label>
+            <div class="row">
+                <div class="col-lg-3 col-sm-6">
+                    <div id="datetime" class="datetimepicker input-group date" data-date-format="YYYY-MM-DD hh:mm:ss">
+                        <input name="reserve_to" class="form-control" type="text">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-calendar" data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar"></i>
+                        </span>
+                    </div>
+                </div><!-- .col-lg-3 -->
+            </div><!-- .row -->
+        </p>
+        <div class="g-recaptcha" data-sitekey="6LcbYhATAAAAAE8Hhp4nWEr2e5DYJ9ddTbt1oYxL"></div>
+        <input class="btn btn-primary" type="submit" value="{% trans "Apply reservation" %}">
+    </form>
+{% endblock %}

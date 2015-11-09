@@ -1,0 +1,11 @@
+.svn
+.settings
+*.pyc
+.project
+.pydevproject
+.ropeproject
+*.so
+RCS
+.subversion
+*.orig
+media/*

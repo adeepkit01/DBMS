@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+
+{% block main %}
+<h2 class="text-center">Put on Rent</h2>
+    <form action="/upload/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+           <dl> 
+            <div class="editor-label">
+                    {{ form.name.errors }}
+                    <dt><label for="id_subject">Item Name:</label></dt>
+                    <dd>{{ form.name }}</dd>
+                    <br>
+            </div>
+            <div class="editor-label">
+                    {{ form.description.errors }}
+                    <dt><label for="id_subject">Description:</label></dt>
+                    <dd>{{ form.description }}</dd>
+                    <br>
+            </div>
+             <div class="editor-label">
+                    {{ form.image.errors }}
+                    <dt><label for="id_subject">Upload Photo</label></dt>
+                    <dd>{{ form.image }}</dd>
+                    <br>
+              </div>
+             <div class="editor-label">
+                    {{ form.tags.errors }}
+                    <dt><label for="id_subject">Choose Tags</label></dt>
+                    <dd>{{ form.tags }}</dd>
+                    <br>
+              </div>
+              <div class="editor-label">
+                    {{ form.price.errors }}
+                    <dt><label for="id_subject">Price per Day</label></dt>
+                    <dd>{{ form.price }}</dd>
+                    <br>
+              </div>
+           <dt><input class="btn btn-primary btn-lg" type="submit" value="Submit Details" /></dt>
+            </dl>
+    </form>
+{% endblock %}

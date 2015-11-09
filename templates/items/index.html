@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block main %}
+{% load search_tags %}
+{% load pagination_tags %}
+    <div class="row-fluid">
+    <style> .search-button {
+	background-color:#44c767;
+	-moz-border-radius:42px;
+	-webkit-border-radius:42px;
+	border-radius:42px;
+	border:1px solid #18ab29;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	font-style:italic;
+	padding:2px 7px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+}
+.search-button:hover {
+	background-color:#5cbf2a;
+}
+.search-button:active {
+	position:relative;
+	top:1px;
+}
+.search-text {
+	border:2px solid #456879;
+	border-radius:10px;
+	height: 30px;
+	width: 1050px;
+}
+
+.list{list-style-type: none;  
+    font-size:150%; }
+
+.bottom-three {
+     color:green;
+    font-family:courier;
+    font-size:250%;
+    text-align: center;
+  }
+
+ul
+  {
+    width: 60em;
+  }  /* float & allow room for the widest item */
+  ul li
+  {
+    float: left;
+    width: 10em;
+  }  /* stop the float */
+  br
+  {
+    clear: left;
+  }  /* separate the list from subsequent markup */
+
+        </style>
+       {% search items name description %}
+       {% autopaginate items 10 %}
+       <hr>
+        <p>
+         {%if request.get_full_path = '/'%}
+        Sort by:&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'index' %}" class="btn btn-sm btn-success">Recently Added</a>&nbsp;&nbsp;&nbsp;&nbsp; <a href="{% url 'indexprice' %}" class="btn btn-sm btn-link">Price L-H</a>&nbsp;&nbsp;&nbsp;&nbsp;  <a href="{% url 'indexpriced' %}" class="btn btn-sm btn-link">Price H-L</a> 
+         {%elif request.get_full_path = '/price'%}
+         Sort by:&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'index' %}" class="btn btn-sm btn-link">Recently Added</a>&nbsp;&nbsp;&nbsp;&nbsp; <a href="{% url 'indexprice' %}" class="btn btn-sm btn-success">Price L-H</a>&nbsp;&nbsp;&nbsp;&nbsp;  <a href="{% url 'indexpriced' %}" class="btn btn-sm btn-link">Price H-L</a> 
+         {%else%}
+       Sort by:&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'index' %}" class="btn btn-sm btn-link">Recently Added</a>&nbsp;&nbsp;&nbsp;&nbsp; <a href="{% url 'indexprice' %}" class="btn btn-sm btn-link">Price L-H</a>&nbsp;&nbsp;&nbsp;&nbsp;  <a href="{% url 'indexpriced' %}" class="btn btn-sm btn-success">Price H-L</a> 
+        {% endif %}
+        </p>
+
+        <table class="table table-bordered" style="background-color:rgba(0, 0, 0, 0);">
+            <thead>
+                <tr>
+                    <th class="name">Name</th>
+                    <th class="image">Image</th>
+                    <th class="description">Description</th>
+                    <th class="availability">Availability</th>
+                    <th class="availability">Price/Day</th>
+                    <th class="reservation">Rented By</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td class="name">
+                            <a href="{% url 'view_item' item_id=item.pk %}">{{ item.name }}</a>
+                        </td>
+                        <td class="image">
+                            {% if item.image %}
+                                <img src="{% thumbnail item.image 150x150 %}">
+                            {% endif %}
+                        </td>
+                        <td class="description">
+                            <p>{{ item.description|safe }}</p>
+                        </td>
+                        <td class="availability">
+                            {% if item.available %}
+                                <span class="label label-success" >Yes</span>
+                            {% else %}
+                                <span class="label label-danger">No</span>
+                            {% endif %}
+                        </td>
+                        <td class="availability">
+                            {% if item.available %}
+                                <span class="label label-success">Rs {{ item.price }}/day</span>
+                            {% else %}
+                                <span class="label label-danger">--</span>
+                            {% endif %}
+                        </td>
+                        <td class="reservation">
+                          {% if request.user.is_authenticated %}
+                            {% if item.added_by = request.user %}
+                                <a href="{% url 'index' %}" class="btn btn-xs btn-success btn-block">My Item</a>
+                            {% else %}
+                            {% if item.available %}
+                                <a href="{% url 'reserve_item' item.pk %}" class="btn btn-xs btn-success btn-block">Reserve</a>
+                            {% else %}
+                                {% if item.rented_by = request.user %}
+                                <a href="{% url 'view_user' item.rented_by.username %}">Me</a>
+                                {% else %}
+                                <a href="{% url 'view_user' item.rented_by.username %}">{{ item.rented_by.username }}</a>
+                                {% endif %}
+                            {% endif %}
+                            {% endif %}
+                          {% else %}
+                                <a href="{% url 'index' %}" class="btn btn-xs btn-success btn-block">Login to reserve</a>
+                          {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% paginate %}
+   <hr >
+<p class="bottom-three" >
+   Categories
+</p>
+    <ul class="list">
+    {% for tag in tags %}
+    <li><a href="{% url 'tag_list' tag_id=tag.pk %}">{{tag.slug}}</a></li>
+    {% endfor %}
+    </ul>
+    <br />
+    </div><!-- .row -->
+
+{% endblock %}
+
+{% block extrafooter %}
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'rentalapp'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+    var s = document.createElement('script'); s.async = true;
+    s.type = 'text/javascript';
+    s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+{% endblock %}

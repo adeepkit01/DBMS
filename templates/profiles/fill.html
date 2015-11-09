@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+    Fill Details
+{% endblock %}
+
+{% block extrahead %}
+    {# <link rel="stylesheet" href="{% static "jquery/jquery-ui.min.css" %}"> #}
+    {# <link rel="stylesheet" href="{% static "css/jquery-ui.min.css" %}"> #}
+    {# <link rel="stylesheet" href="{% static "css/jquery-ui.structure.min.css" %}"> #}
+    <link rel="stylesheet" href="{% static "css/jquery-ui-1.10.0.custom.css" %}">
+    <link rel="stylesheet" href="{% static "css/jquery.ui.timepicker.css" %}">
+{% endblock %}
+
+{% block extrafooter %}
+    <script src="{% static "jquery/jquery-ui.js" %}"></script>
+    <script src="{% static "jquery/jquery-ui.min.js" %}"></script>
+    {# <script src="{% static "js/vendor/jquery-ui.min.js" %}"></script> #}
+    <script src="{% static "js/vendor/jquery.ui.timepicker.js" %}"></script>
+    {# <script src="{% static "js/vendor/jquery.ui.position.min.js" %}"></script> #}
+    {{ block.super }}
+{% endblock %}
+
+{% block main %}
+    <form action="/fill/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+           <dl> 
+            <div class="editor-label">
+                    {{ form.description.errors }}
+                    <dt><label for="id_subject">Description:</label></dt>
+                    <dd>{{ form.description }}</dd>
+                    <br>
+            </div>
+             <div class="editor-label">
+                    {{ form.image.errors }}
+                    <dt><label for="id_subject">Upload Photo</label></dt>
+                    <dd>{{ form.image }}</dd>
+                    <br>
+              </div>
+           <dt><input class="btn btn-primary btn-lg" type="submit" value="Submit Details" /></dt>
+            </dl>
+    </form>
+{% endblock %}
