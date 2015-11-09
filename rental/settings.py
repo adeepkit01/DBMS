@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'db4@w-kzi&kemc)0v(j)y9$j^4r7b02g6^@bx2c)xm#r6d4c5i'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -111,14 +111,14 @@ USE_TZ = True
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'rentankit0@gmail.com'
-EMAIL_HOST_PASSWORD = 'rentbaby'
-DEFAULT_FROM_EMAIL = 'rentankit0@gmail.com'
-DEFAULT_TO_EMAIL = 'rentankit0@gmail.com'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+DEFAULT_FROM_EMAIL = ''
+DEFAULT_TO_EMAIL = ''
 
 # RECAPTCHA STUFF
-GOOGLE_RECAPTCHA_SITE_KEY = "6LcbYhATAAAAAE8Hhp4nWEr2e5DYJ9ddTbt1oYxL"
-GOOGLE_RECAPTCHA_SECRET_KEY = "6LcbYhATAAAAAALC3xk533rDQbZMCGtaCOhX6l0B"
+GOOGLE_RECAPTCHA_SITE_KEY = ""
+GOOGLE_RECAPTCHA_SECRET_KEY = ""
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
